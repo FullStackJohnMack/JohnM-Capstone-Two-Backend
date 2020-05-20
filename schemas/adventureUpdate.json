@@ -1,0 +1,95 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "name": "Test Adventure Patched",
+            "description": "Really crazy cool.",
+            "category_id": 2,
+            "starting_location": "47.846278, -112.782389",
+            "min_duration": 30,
+            "max_duration": 60,
+            "avg_duration": 45
+        }
+    ],
+    "required": [
+
+    ],
+    "additionalProperties": true,
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "The name schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Test Adventure Patched"
+            ]
+        },
+        "description": {
+            "$id": "#/properties/description",
+            "type": "string",
+            "title": "The description schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Really crazy cool."
+            ]
+        },
+        "category_id": {
+            "$id": "#/properties/category_id",
+            "type": "integer",
+            "title": "The category_id schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                2
+            ]
+        },
+        "starting_location": {
+            "$id": "#/properties/starting_location",
+            "type": "string",
+            "title": "The starting_location schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "47.846278, -112.782389"
+            ]
+        },
+        "min_duration": {
+            "$id": "#/properties/min_duration",
+            "type": "integer",
+            "title": "The min_duration schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                30
+            ]
+        },
+        "max_duration": {
+            "$id": "#/properties/max_duration",
+            "type": "integer",
+            "title": "The max_duration schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                60
+            ]
+        },
+        "avg_duration": {
+            "$id": "#/properties/avg_duration",
+            "type": "integer",
+            "title": "The avg_duration schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                45
+            ]
+        }
+    }
+}
