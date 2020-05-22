@@ -46,19 +46,21 @@ router.get("/:adventure_id", async function(req, res, next) {
 
 router.post(
     "/", async function(req, res, next) {
+      // console.log(req.body);
     // "/", adminRequired, async function(req, res, next) {
       try {
         const validation = validate(req.body, adventureNew);
 
         if (!validation.valid) {
+          console.log(validation.errors);
           return next({
             status: 400,
             message: validation.errors.map(e => e.stack)
           });
         }
-
+        
         const adventure = await Adventure.create(req.body);
-        return res.status(201).json({adventure});
+        return res.status(201).json(adventure);
       }
 
       catch (err) {

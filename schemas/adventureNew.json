@@ -65,6 +65,16 @@
                 "47.846278, -112.782389"
             ]
         },
+        "ending_location": {
+            "$id": "#/properties/ending_location",
+            "type": "string",
+            "title": "The ending_location schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "47.846278, -112.782389"
+            ]
+        },
         "min_duration": {
             "$id": "#/properties/min_duration",
             "type": "integer",

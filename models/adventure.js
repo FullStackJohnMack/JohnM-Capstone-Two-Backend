@@ -83,7 +83,7 @@ class Adventure {
     const result = await db.query(
         `INSERT INTO adventures (name, description, category_id, starting_location, min_duration) 
              VALUES ($1, $2, $3, $4, $5) 
-             RETURNING name`,
+             RETURNING *`,
         [data.name, data.description, data.category_id, data.starting_location, data.min_duration]
     );
 
