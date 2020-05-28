@@ -11,7 +11,7 @@ class Adventure {
   static async findAll() {
 //   static async findAll(data, username) {
     let baseQuery = `
-      SELECT adventure_id, name, description, adventure_categories.category, starting_location, ending_location, min_duration, max_duration, avg_duration, created_at, modified_at
+      SELECT adventure_id, name, description, adventure_categories.category, starting_location, ending_location, min_duration, max_duration, avg_duration, created_at, updated_at
         FROM adventures
         INNER JOIN adventure_categories ON adventures.category_id = adventure_categories.category_id;`
     // let whereExpressions = [];
@@ -51,7 +51,7 @@ class Adventure {
 
   static async findOne(adventure_id) {
     const adventureRes = await db.query(
-        `SELECT adventure_id, name, description, adventure_categories.category, starting_location, ending_location, min_duration, max_duration, avg_duration, created_at, modified_at
+        `SELECT adventure_id, name, description, adventure_categories.category, starting_location, ending_location, min_duration, max_duration, avg_duration, created_at, updated_at
             FROM adventures
             INNER JOIN adventure_categories ON adventures.category_id = adventure_categories.category_id
             WHERE adventure_id = $1`,

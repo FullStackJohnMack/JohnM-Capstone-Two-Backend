@@ -31,6 +31,7 @@
             "title": "The name schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 1,
             "examples": [
                 "Test Adventure Patched"
             ]
@@ -41,6 +42,7 @@
             "title": "The description schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 1,
             "examples": [
                 "Really crazy cool."
             ]
@@ -61,8 +63,9 @@
             "title": "The starting_location schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 8,
             "examples": [
-                "47.846278, -112.782389"
+                "47.846278,-112.782389"
             ]
         },
         "ending_location": {
@@ -71,8 +74,9 @@
             "title": "The ending_location schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 8,
             "examples": [
-                "47.846278, -112.782389"
+                "47.846278,-112.782389"
             ]
         },
         "min_duration": {

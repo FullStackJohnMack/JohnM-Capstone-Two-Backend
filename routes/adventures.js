@@ -14,11 +14,9 @@ const { adventureNew, adventureUpdate } = require("../schemas");
 /** GET / => {jobs: [job, ...]} */
 
 router.get("/", async function(req, res, next) {
-// router.get("/", authRequired, async function(req, res, next) {
 
   try {
     const adventures = await Adventure.findAll();
-    // const adventures = await Adventure.findAll(req.query, req.username);
     return res.json({adventures});
   }
 
@@ -30,9 +28,7 @@ router.get("/", async function(req, res, next) {
 /** GET /[jobid] => {job: job} */
 
 router.get("/:adventure_id", async function(req, res, next) {
-// router.get("/:adventure_id", authRequired, async function(req, res, next) {
   try {
-    // console.log(req.params);
     const adventure = await Adventure.findOne(req.params.adventure_id);
     return res.json({adventure});
   }
@@ -45,14 +41,12 @@ router.get("/:adventure_id", async function(req, res, next) {
 /** POST / {jobData} => {job: job} */
 
 router.post(
-    "/", async function(req, res, next) {
-      // console.log(req.body);
-    // "/", adminRequired, async function(req, res, next) {
+    "/", authRequired, async function(req, res, next) {
+
       try {
         const validation = validate(req.body, adventureNew);
 
         if (!validation.valid) {
-          console.log(validation.errors);
           return next({
             status: 400,
             message: validation.errors.map(e => e.stack)
@@ -71,8 +65,10 @@ router.post(
 
 /** PATCH /[jobid]  {jobData} => {job: updatedJob} */
 
-router.patch("/:adventure_id", async function(req, res, next) {
-// router.patch("/:id", adminRequired, async function(req, res, next) {
+router.patch("/:adventure_id", adminRequired, async function(req, res, next) {
+
+  console.log(req.body);
+
   try {
     if ("adventure_id" in req.body) {
       return res.status(400).json({ message: "Not allowed" });
@@ -86,8 +82,10 @@ router.patch("/:adventure_id", async function(req, res, next) {
       });
     }
 
+    delete req.body.token; //no longer needed after middleware
+
     const adventure= await Adventure.update(req.params.adventure_id, req.body);
-    return res.json({adventure});
+    return res.json(adventure);
   }
 
   catch (err) {
@@ -97,8 +95,8 @@ router.patch("/:adventure_id", async function(req, res, next) {
 
 /** DELETE /[handle]  =>  {message: "User deleted"}  */
 
-router.delete("/:adventure_id", async function(req, res, next) {
-// router.delete("/:adventure_id", adminRequired, async function(req, res, next) {
+router.delete("/:adventure_id", adminRequired, async function(req, res, next) {
+
   try {
     await Adventure.remove(req.params.adventure_id);
     return res.json({ message: "Adventure deleted" });

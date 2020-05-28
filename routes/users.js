@@ -37,6 +37,7 @@ router.get("/:username", authRequired, async function(req, res, next) {
 /** POST / {userdata}  => {token: token} */
 
 router.post("/", async function(req, res, next) {
+  
   try {
     delete req.body._token;
     const validation = validate(req.body, userNew);
@@ -50,13 +51,11 @@ router.post("/", async function(req, res, next) {
 
     const newUser = await User.register(req.body);
     const token = createToken(newUser);
-    return res.status(201).json({ token });
+    return res.status(201).json({ username:newUser.username, token });
   } catch (e) {
     return next(e);
   }
 });
-
-//left off needing to check rest of auth methods here
 
 /** PATCH /[handle] {userData} => {user: updatedUser} */
 

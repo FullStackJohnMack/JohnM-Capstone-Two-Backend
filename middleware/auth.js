@@ -14,8 +14,9 @@ const {SECRET} = require("../config");
  */
 
 function authRequired(req, res, next) {
+
   try {
-    const tokenStr = req.body._token || req.query._token;
+    const tokenStr = req.body.token || req.query.token;
     let token = jwt.verify(tokenStr, SECRET);
     req.username = token.username;
     return next();
@@ -37,28 +38,29 @@ function authRequired(req, res, next) {
  *
  */
 
-// function adminRequired(req, res, next) {
-//   try {
-//     const tokenStr = req.body._token;
+function adminRequired(req, res, next) {
 
-//     let token = jwt.verify(tokenStr, SECRET);
-//     req.username = token.username;
+  try {
+    const tokenStr = req.body.token;
 
-//     if (token.is_admin) {
-//       return next();
-//     }
+    let token = jwt.verify(tokenStr, SECRET);
+    req.username = token.username;
 
-//     // throw an error, so we catch it in our catch, below
-//     throw new Error();
-//   }
+    if (token.is_admin) {
+      return next();
+    }
 
-//   catch (err) {
-//     const unauthorized = new Error("You must be an admin to access.");
-//     unauthorized.status = 401;
+    // throw an error, so we catch it in our catch, below
+    throw new Error();
+  }
 
-//     return next(unauthorized);
-//   }
-// }
+  catch (err) {
+    const unauthorized = new Error("You must be an admin to access.");
+    unauthorized.status = 401;
+
+    return next(unauthorized);
+  }
+}
 
 
 /** Middleware to use when they must provide a valid token & be user matching
@@ -73,7 +75,7 @@ function authRequired(req, res, next) {
 function ensureCorrectUser(req, res, next) {
 
   try {
-    const tokenStr = req.body._token || req.query._token;
+    const tokenStr = req.body.token || req.query.token;
 
     let token = jwt.verify(tokenStr, SECRET);
     req.username = token.username;
@@ -97,6 +99,6 @@ function ensureCorrectUser(req, res, next) {
 
 module.exports = {
   authRequired,
-//   adminRequired,
+  adminRequired,
   ensureCorrectUser
 };

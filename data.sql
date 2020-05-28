@@ -40,8 +40,8 @@ CREATE TABLE adventures (
     min_duration integer NOT NULL,
     max_duration integer,
     avg_duration integer,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    modified_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE ratings_adventures (
@@ -52,5 +52,10 @@ CREATE TABLE ratings_adventures (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO adventures (name, description, category_id, starting_location, min_duration) VALUES ('Slippery Ann Elk Viewing Area','See up to 500 elk during September and October. The first and last two hours of daylight are the best times to see these elk.','2','47.616862, -108.567182', 120);
-INSERT INTO adventures (name, description, category_id, starting_location, min_duration) VALUES ('Our Lake Hike','This popular 7 mile, moderate hike takes you by a waterfall and to a hidden alpine lake frequented by Mountain Goats.','1','47.846278, -112.782389','240');
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON adventures
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+INSERT INTO adventures (name, description, category_id, starting_location, min_duration) VALUES ('Slippery Ann Elk Viewing Area','See up to 500 elk during September and October. The first and last two hours of daylight are the best times to see these elk.','2','47.616862,-108.567182', 120);
+INSERT INTO adventures (name, description, category_id, starting_location, min_duration) VALUES ('Our Lake Hike','This popular 7 mile, moderate hike takes you by a waterfall and to a hidden alpine lake frequented by Mountain Goats.','1','47.846278,-112.782389','240');

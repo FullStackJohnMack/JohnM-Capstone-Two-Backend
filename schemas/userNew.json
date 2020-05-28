@@ -29,6 +29,7 @@
             "title": "The username schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 1,
             "examples": [
                 "ellepoo"
             ]
@@ -39,6 +40,7 @@
             "title": "The password schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 6,
             "examples": [
                 "password"
             ]
@@ -49,6 +51,7 @@
             "title": "The first_name schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 1,
             "examples": [
                 "Ellie"
             ]
@@ -59,6 +62,7 @@
             "title": "The last_name schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 1,
             "examples": [
                 "Mack"
             ]
@@ -69,6 +73,7 @@
             "title": "The email schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
+            "minLength": 7,
             "examples": [
                 "elle@test.com"
             ]

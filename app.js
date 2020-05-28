@@ -6,13 +6,17 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 
+// add logging system
+const morgan = require("morgan");
+app.use(morgan("tiny"));
+
 const usersRoutes = require("./routes/users");
 const adventuresRoutes = require("./routes/adventures");
-// const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth");
 
 app.use("/users", usersRoutes);
 app.use("/adventures", adventuresRoutes);
-// app.use("/", authRoutes);
+app.use("/", authRoutes);
 
 
 /** 404 handler */
@@ -32,6 +36,10 @@ app.use(function (err, req, res, next) {
 
   res.status(err.status || 500);
 
+  // console.log(res.json({
+  //   error: err,
+  //   message: err.message
+  // }));
   return res.json({
     error: err,
     message: err.message

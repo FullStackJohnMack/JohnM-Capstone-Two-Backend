@@ -25,6 +25,7 @@ class User {
         [data.username]
     );
 
+
     const user = result.rows[0];
 
     if (user) {
@@ -63,7 +64,7 @@ class User {
         `INSERT INTO users 
             (username, password, first_name, last_name, email) 
           VALUES ($1, $2, $3, $4, $5) 
-          RETURNING username, first_name, last_name, email`,
+          RETURNING username, first_name, last_name, email, is_admin`,
         [
           data.username,
           hashedPassword,
@@ -162,14 +163,18 @@ class User {
 
 module.exports = User;
 
+
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjAxMzkyMzM4IiwiaWF0IjoxNTkwMzMwNzM1fQ.i7bIBblpuShXlbx6gPYibv6f372OnBvzl6_-ayireTI"
+
 // {
-//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJ1ZHkxIiwiaWF0IjoxNTg5OTkyODMyfQ.oiAZrju39rpNkd55oWzMc3RXntGLpXvNQ7TuzmNJWTY"
+//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjAxMzkyMzM4IiwiaWF0IjoxNTkwMzMwNzM1fQ.i7bIBblpuShXlbx6gPYibv6f372OnBvzl6_-ayireTI"
 // }
 
 // {
-// 	"username": "rudy1",
-// 	"password": "password",
-// 	"first_name": "Rudy1",
-// 	"last_name": "Tuesday",
-// 	"email": "rudy1@test.com"
+// 	"username":"01392338",
+// 	"password":"password",
+// 	"first_name":"John",
+// 	"last_name":"Mack",
+// 	"email":"mackspace@gmail.com",
+// 	"is_admin":true
 // }
