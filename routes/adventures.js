@@ -1,4 +1,4 @@
-/** Routes for jobs. */
+/** Routes for . */
 
 const express = require("express");
 const router = express.Router({ mergeParams: true });
@@ -11,7 +11,7 @@ const { validate } = require("jsonschema");
 const { adventureNew, adventureUpdate } = require("../schemas");
 
 
-/** GET / => {jobs: [job, ...]} */
+/** GET / => {: [, ...]} */
 
 router.get("/", async function(req, res, next) {
 
@@ -25,7 +25,7 @@ router.get("/", async function(req, res, next) {
   }
 });
 
-/** GET /[jobid] => {job: job} */
+/** GET /[] => {: } */
 
 router.get("/:adventure_id", async function(req, res, next) {
   try {
@@ -38,7 +38,7 @@ router.get("/:adventure_id", async function(req, res, next) {
   }
 });
 
-/** POST / {jobData} => {job: job} */
+/** POST / {} => {: } */
 
 router.post(
     "/", authRequired, async function(req, res, next) {
@@ -63,11 +63,9 @@ router.post(
     }
 );
 
-/** PATCH /[jobid]  {jobData} => {job: updatedJob} */
+/** PATCH /[]  {} => {: } */
 
 router.patch("/:adventure_id", adminRequired, async function(req, res, next) {
-
-  console.log(req.body);
 
   try {
     if ("adventure_id" in req.body) {

@@ -162,19 +162,3 @@ class User {
 
 
 module.exports = User;
-
-
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjAxMzkyMzM4IiwiaWF0IjoxNTkwMzMwNzM1fQ.i7bIBblpuShXlbx6gPYibv6f372OnBvzl6_-ayireTI"
-
-// {
-//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjAxMzkyMzM4IiwiaWF0IjoxNTkwMzMwNzM1fQ.i7bIBblpuShXlbx6gPYibv6f372OnBvzl6_-ayireTI"
-// }
-
-// {
-// 	"username":"01392338",
-// 	"password":"password",
-// 	"first_name":"John",
-// 	"last_name":"Mack",
-// 	"email":"mackspace@gmail.com",
-// 	"is_admin":true
-// }

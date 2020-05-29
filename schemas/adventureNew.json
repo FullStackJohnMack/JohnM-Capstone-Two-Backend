@@ -74,7 +74,6 @@
             "title": "The ending_location schema",
             "description": "An explanation about the purpose of this instance.",
             "default": "",
-            "minLength": 8,
             "examples": [
                 "47.846278,-112.782389"
             ]

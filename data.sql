@@ -6,14 +6,20 @@ CREATE TABLE users (
     email text UNIQUE NOT NULL,
     password text NOT NULL,
     is_admin boolean DEFAULT false,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    modified_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO users (username, first_name, last_name, email, password, is_admin) VALUES ('01392338', 'John', 'Mack', 'mackspace@gmail.com', 'password', true);
-INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester 1', 'Tester', '1', 'tester1@test.com', 'password');
-INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester 2', 'Tester', '2', 'tester2@test.com', 'password');
-INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester 3', 'Tester', '3', 'tester3@test.com', 'password');
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+-- Can't use this because we need to hash these passwords first
+-- INSERT INTO users (username, first_name, last_name, email, password, is_admin) VALUES ('01392338', 'John', 'Mack', 'mackspace@gmail.com', 'password', true);
+-- INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester 1', 'Tester', '1', 'tester1@test.com', 'password');
+-- INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester 2', 'Tester', '2', 'tester2@test.com', 'password');
+-- INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester 3', 'Tester', '3', 'tester3@test.com', 'password');
 
 CREATE TABLE adventure_categories (
     category_id SERIAL PRIMARY KEY,
