@@ -1,9 +1,9 @@
 /** Shared config for application; can be req'd many places. */
 
 
-// require("dotenv").config();
+require("dotenv").config();
 
-const SECRET = process.env.SECRET_KEY || 'test';
+const SECRET = process.env.SECRET_KEY || 'local';
 
 const PORT = +process.env.PORT || 3001;
 
