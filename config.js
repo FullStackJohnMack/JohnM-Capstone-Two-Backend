@@ -7,8 +7,6 @@ const SECRET = process.env.SECRET_KEY || 'local';
 
 const PORT = +process.env.PORT || 3001;
 
-const API_URL = 'https://adventure-montana-backend.herokuapp.com';
-
 // database is:
 //
 // - on Heroku, get from env var DATABASE_URL
