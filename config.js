@@ -22,6 +22,5 @@ console.log("Using database", DB_URI);
 module.exports = {
   SECRET,
   PORT,
-  DB_URI,
-  API_URL
+  DB_URI
 };
