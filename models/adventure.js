@@ -1,28 +1,27 @@
+/** Functions for Adventure class, accessed by adventures routes. */
+
 const db = require("../db");
 const sqlForPartialUpdate = require("../helpers/partialUpdate");
 
-
-/** Related functions for . */
-
 class Adventure {
 
-  /** Find all  (can filter on terms in data). */
+
+  /** Returns array of all adventures. */
 
   static async findAll() {
-//   static async findAll(data, username) {
+
     let baseQuery = `
       SELECT adventure_id, name, description, adventure_categories.category, starting_location, ending_location, min_duration, max_duration, avg_duration, created_at, updated_at
         FROM adventures
         INNER JOIN adventure_categories ON adventures.category_id = adventure_categories.category_id;`
-
-
 
     const adventureRes = await db.query(baseQuery);
 
     return adventureRes.rows;
   }
 
-  /** Given a  id, return data about . */
+
+  /** Given an adventure ID, returns one adventure or throws error if adventure can't be found. */
 
   static async findOne(adventure_id) {
     const adventureRes = await db.query(
@@ -36,14 +35,15 @@ class Adventure {
 
     if (!adventure) {
       const error = new Error(`There exists no adventure '${adventure_id}'`);
-      error.status = 404;   // 404 NOT FOUND
+      error.status = 404;
       throw error;
     }
 
     return adventure;
   }
 
-  /** Create a  (from data), update db, return new  data. */
+
+  /** Creates an adventure from user provided data and returns that adventure. */
 
   static async create(data) {
     const result = await db.query(
@@ -56,12 +56,13 @@ class Adventure {
     return result.rows[0];
   }
 
-  /** Update  data with `data`.
+
+  /** Updates one adventure given the adaventure_id and new data or thorws error is adventure can't be found.
    *
    * This is a "partial update" --- it's fine if data doesn't contain
    * all the fields; this only changes provided ones.
    *
-   * Return data for changed .
+   * Return data for changed adventure.
    *
    */
 
@@ -85,7 +86,8 @@ class Adventure {
     return adventure;
   }
 
-  /** Delete given  from database; returns undefined. */
+
+  /** Deletes an adventure when given an adventure ID; returns undefined on success or throws error if can't find user. */
 
   static async remove(adventure_id) {
     const result = await db.query(
@@ -99,8 +101,7 @@ class Adventure {
       notFound.status = 404;
       throw notFound;
     }
+  }
 }
-}
-
 
 module.exports = Adventure;

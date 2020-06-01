@@ -5,7 +5,7 @@ const express = require("express");
 const router = new express.Router();
 const createToken = require("../helpers/createToken");
 
-
+//POST route which accepts username and password returns either a valid token or an error
 router.post("/login", async function(req, res, next) {
   try {
     const user = await User.authenticate(req.body);
@@ -15,6 +15,5 @@ router.post("/login", async function(req, res, next) {
     return next(e);
   }
 });
-
 
 module.exports = router;

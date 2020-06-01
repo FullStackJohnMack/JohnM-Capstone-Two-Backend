@@ -1,17 +1,19 @@
-/** Routes for . */
+/** Routes for adventures. */
 
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
 const { adminRequired, authRequired } = require("../middleware/auth");
 
+//Data validation for new and update adventure functions
 const Adventure = require("../models/adventure");
 const { validate } = require("jsonschema");
-
 const { adventureNew, adventureUpdate } = require("../schemas");
 
 
-/** GET / => {: [, ...]} */
+/** GET all adventures route
+ * Returns {adventures: [{adventure1},{adventure2},...]} or forwards error
+ */
 
 router.get("/", async function(req, res, next) {
 
@@ -25,7 +27,10 @@ router.get("/", async function(req, res, next) {
   }
 });
 
-/** GET /[] => {: } */
+
+/** GET one adventure route
+ * Given adventure_id as URL param, returns {adventure:{adventure}} or forwards error 
+ */
 
 router.get("/:adventure_id", async function(req, res, next) {
   try {
@@ -38,14 +43,18 @@ router.get("/:adventure_id", async function(req, res, next) {
   }
 });
 
-/** POST / {} => {: } */
 
-router.post(
-    "/", authRequired, async function(req, res, next) {
+/** POST route to create an adventure
+ * Requires auth token
+ * Given adventure data, returns {adventure} 
+ */
+
+router.post("/", authRequired, async function(req, res, next) {
 
       try {
         const validation = validate(req.body, adventureNew);
 
+        //code block runs if new adventure doesn't validate against adventureNew schema
         if (!validation.valid) {
           return next({
             status: 400,
@@ -63,7 +72,10 @@ router.post(
     }
 );
 
-/** PATCH /[]  {} => {: } */
+
+/** PATCH route to update an adventure
+ * Requires admin status in auth token
+ * Given adventure_id via URL param and adventure data, returns {adventure} or throws error */
 
 router.patch("/:adventure_id", adminRequired, async function(req, res, next) {
 
@@ -73,6 +85,8 @@ router.patch("/:adventure_id", adminRequired, async function(req, res, next) {
     }
 
     const validation = validate(req.body, adventureUpdate);
+
+    //code block runs if updated adventure doesn't validate against adventureUpdate schema
     if (!validation.valid) {
       return next({
         status: 400,
@@ -91,7 +105,9 @@ router.patch("/:adventure_id", adminRequired, async function(req, res, next) {
   }
 });
 
-/** DELETE /[handle]  =>  {message: "User deleted"}  */
+/** DELETE route to delete adventure
+ * Requires admin status in auth token
+ * Given adventure_id via URL param, returns {message: "Adventure deleted"}  */
 
 router.delete("/:adventure_id", adminRequired, async function(req, res, next) {
 

@@ -1,18 +1,19 @@
+/** Functions for User class, accessed by auth and users routes. */
+
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const partialUpdate = require("../helpers/partialUpdate");
 
+//Based on early 2020 best practice
 const BCRYPT_WORK_FACTOR = 15;
-
-
-// /** Related functions for users. */
 
 class User {
 
-  /** authenticate user with username, password. Returns user or throws err. */
+  //---------------FUNCTION CALLED BY AUTH ROUTE---------------
 
+  /** Authenticates user with username, password. Returns single user object or throws err*/
   static async authenticate(data) {
-    // try to find the user first
+    // finds user by provided username
     const result = await db.query(
         `SELECT username, 
                 password, 
@@ -25,24 +26,26 @@ class User {
         [data.username]
     );
 
-
     const user = result.rows[0];
 
     if (user) {
-      // compare hashed password to a new hash from password
+      // compare stored hashed password to a new hash from provided password
       const isValid = await bcrypt.compare(data.password, user.password);
       if (isValid) {
         return user;
       }
     }
 
+    //if we don't have a valid user, throw error
     const invalidPass = new Error("Invalid Credentials");
     invalidPass.status = 401;
     throw invalidPass;
   }
 
-  /** Register user with data. Returns new user data. */
 
+//---------------FUNCTIONS CALLED BY USERS ROUTES---------------
+
+  /** Registers user with data. On success, returns new user. */
   static async register(data) {
     const duplicateCheck = await db.query(
         `SELECT username 
@@ -51,15 +54,18 @@ class User {
         [data.username]
     );
 
+    //code block runs if duplicate username attempted
     if (duplicateCheck.rows[0]) {
       const err = new Error(
           `There already exists a user with username '${data.username}`);
       err.status = 409;
       throw err;
     }
-
+    
+    //hashes user provided password
     const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
 
+    //writes user provided user data to database
     const result = await db.query(
         `INSERT INTO users 
             (username, password, first_name, last_name, email) 
@@ -76,8 +82,8 @@ class User {
     return result.rows[0];
   }
 
-  /** Find all users. */
 
+  /** Finds all users and returns array of user objects*/
   static async findAll() {
     const result = await db.query(
         `SELECT user_id, username, first_name, last_name, email, is_admin
@@ -87,8 +93,8 @@ class User {
     return result.rows;
   }
 
-  /** Given a username, return data about user. */
 
+  /** Accepts username and returns data about user or throws error if user can't be found. */
   static async findOne(username) {
     const userRes = await db.query(
         `SELECT user_id, username, first_name, last_name, email, is_admin
@@ -100,12 +106,13 @@ class User {
 
     if (!user) {
       const error = new Error(`There exists no user '${username}'`);
-      error.status = 404;   // 404 NOT FOUND
+      error.status = 404;
       throw error;
     }
 
     return user;
   }
+
 
   /** Update user data with `data`.
    *
@@ -114,6 +121,7 @@ class User {
    *
    * Return data for changed user.
    *
+   * Throws error if user can't be found.
    */
 
   static async update(username, data) {
@@ -137,20 +145,22 @@ class User {
       throw notFound;
     }
 
+    //remove auth related data from returned user data
     delete user.password;
     delete user.is_admin;
 
     return result.rows[0];
   }
 
-  /** Delete given user from database; returns undefined. */
+
+  /** Delete given user from database; returns undefined on success or 404 error is user can't be found. */
 
   static async remove(username) {
-      let result = await db.query(
-              `DELETE FROM users 
-                WHERE username = $1
-                RETURNING username`,
-              [username]);
+    let result = await db.query(
+      `DELETE FROM users 
+      WHERE username = $1
+      RETURNING username`,
+      [username]);
 
     if (result.rows.length === 0) {
       let notFound = new Error(`There exists no user '${username}'`);
@@ -159,6 +169,5 @@ class User {
     }
   }
 }
-
 
 module.exports = User;

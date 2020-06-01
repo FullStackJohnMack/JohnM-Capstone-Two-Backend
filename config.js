@@ -1,21 +1,16 @@
-/** Shared config for application; can be req'd many places. */
+/** Shared config for application*/
 
-
-require("dotenv").config();
+require("dotenv").config(); //loads for environmental variables
 
 const SECRET = process.env.SECRET_KEY || 'local';
 
 const PORT = +process.env.PORT || 3001;
 
-// database is:
-//
-// - on Heroku, get from env var DATABASE_URL
-// - in testing, 'adventure-test'
-// - else: 'adventure'
-
+//DB_URI will hold the name of our database
 let DB_URI;
 
-DB_URI = process.env.DATABASE_URL || 'adventure';
+//in testing, use 'adventure-test' but in production, use database 'adventure' from env
+DB_URI = process.env.DATABASE_URL || 'adventure-test';
 
 console.log("Using database", DB_URI);
 

@@ -1,8 +1,7 @@
+/** Returns signed JWT from user data (username and password). */
+
 const jwt = require("jsonwebtoken");
 const { SECRET } = require("../config");
-
-
-/** return signed JWT from user data. */
 
 function createToken(user) {
 
@@ -13,6 +12,5 @@ function createToken(user) {
 
   return jwt.sign(payload, SECRET);
 }
-
 
 module.exports = createToken;

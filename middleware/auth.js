@@ -1,22 +1,21 @@
-/** Convenience middleware to handle common auth cases in routes. */
-
+/** Middleware to handle common auth cases in routes. */
 
 const jwt = require("jsonwebtoken");
 const {SECRET} = require("../config");
 
 
-/** Middleware to use when they must provide a valid token.
+/** Middleware to use when a valid token is required to access routes.
  *
  * Add username onto req as a convenience for view functions.
  *
- * If not, raises Unauthorized.
+ * If not successful, throws 401 Unauthorized error.
  *
  */
 
-function authRequired(req, res, next) {
+function authRequired(req, next) {
 
   try {
-    const tokenStr = req.body.token || req.query.token;
+    const tokenStr = req.body.token || req.query.token; //looks for token on request body and as a query parameter
     let token = jwt.verify(tokenStr, SECRET);
     req.username = token.username;
     return next();
@@ -30,15 +29,15 @@ function authRequired(req, res, next) {
 }
 
 
-/** Middleware to use when they must provide a valid token that is an admin token.
+/** Middleware to use when user is admin and has token showing that.
  *
  * Add username onto req as a convenience for view functions.
  *
- * If not, raises Unauthorized.
+ * If user is not an admin, a 401 Unauthorized error is thrown.
  *
  */
 
-function adminRequired(req, res, next) {
+function adminRequired(req, next) {
 
   try {
     const tokenStr = req.body.token;
@@ -50,7 +49,7 @@ function adminRequired(req, res, next) {
       return next();
     }
 
-    // throw an error, so we catch it in our catch, below
+    // is user not admin, throw error to be caught later in catch block
     throw new Error();
   }
 
@@ -63,16 +62,14 @@ function adminRequired(req, res, next) {
 }
 
 
-/** Middleware to use when they must provide a valid token & be user matching
- *  username provided as route param.
+/** Middleware to use when user must provide a valid token & matching username provided as route param.
  *
  * Add username onto req as a convenience for view functions.
  *
- * If not, raises Unauthorized.
- *
+ * If user is not the correct user, throw 401 Unauthorized error.
  */
 
-function ensureCorrectUser(req, res, next) {
+function ensureCorrectUser(req, next) {
 
   try {
     const tokenStr = req.body.token || req.query.token;
