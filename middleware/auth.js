@@ -12,7 +12,7 @@ const {SECRET} = require("../config");
  *
  */
 
-function authRequired(req, next) {
+function authRequired(req, res, next) {
 
   try {
     const tokenStr = req.body.token || req.query.token; //looks for token on request body and as a query parameter
@@ -37,7 +37,7 @@ function authRequired(req, next) {
  *
  */
 
-function adminRequired(req, next) {
+function adminRequired(req, res, next) {
 
   try {
     const tokenStr = req.body.token;
@@ -69,7 +69,7 @@ function adminRequired(req, next) {
  * If user is not the correct user, throw 401 Unauthorized error.
  */
 
-function ensureCorrectUser(req, next) {
+function ensureCorrectUser(req, res, next) {
 
   try {
     const tokenStr = req.body.token || req.query.token;
