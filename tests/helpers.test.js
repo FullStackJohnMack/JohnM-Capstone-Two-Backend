@@ -3,7 +3,6 @@ const createToken = require("../helpers/createToken");
 
 const jwt = require("jsonwebtoken");
 
-
 describe("partialUpdate()", () => {
   it("should generate proper partial update query with 1 field", function () {
     const {query, values} = sqlForPartialUpdate(

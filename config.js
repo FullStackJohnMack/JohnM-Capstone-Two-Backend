@@ -12,7 +12,7 @@ let DB_URI;
 //in testing, use 'adventure-test' but in production, use database 'adventure' from env
 DB_URI = process.env.DATABASE_URL || 'adventure-test';
 
-console.log("Using database", DB_URI);
+// console.log("Using database", DB_URI);
 
 module.exports = {
   SECRET,
